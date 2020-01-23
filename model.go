@@ -31,10 +31,10 @@ type B2C struct {
 type B2B struct {
 	Initiator              string
 	SecurityCredential     string
-	CommandID              int
+	CommandID              string
 	SenderIdentifierType   string
 	RecieverIdentifierType string
-	Amount                 string
+	Amount                 int
 	PartyA                 string
 	PartyB                 string
 	Remarks                string
