@@ -16,9 +16,9 @@ func (s Service) GetSecurityCredential(initiatorPassword string) (string, error)
 
 	var fileName string
 	if s.Env == PRODUCTION {
-		fileName = "certs/live.cert"
+		fileName = "certs/live.cer"
 	} else {
-		fileName = "certs/sandbox.cert"
+		fileName = "certs/sandbox.cer"
 	}
 
 	pubKey, err := ioutil.ReadFile(fileName)
