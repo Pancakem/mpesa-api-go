@@ -1,5 +1,9 @@
 package mpesa
 
+import (
+	"time"
+)
+
 type authResponse struct {
 	AccessToken string `json:"access_token"`
 }
@@ -56,6 +60,28 @@ type Express struct {
 	CallBackURL       string
 	AccountReference  string
 	TransactionDesc   string
+}
+
+var defaultTransactionType = "CustomerPayBillOnline"
+
+// NewExpress creates an express request object. Does the password generation and timestamp
+func NewExpress(shortCode, amount, phoneNumber, callbackURL, ref, desc, passkey string) *Express {
+	timestamp := time.Now().Format("20060102030405")
+	password := GeneratePassword(shortCode, passkey, timestamp)
+
+	return &Express{
+		BusinessShortCode: shortCode,
+		Password:          password,
+		Timestamp:         timestamp,
+		TransactionType:   defaultTransactionType,
+		Amount:            amount,
+		PartyA:            phoneNumber,
+		PartyB:            shortCode,
+		PhoneNumber:       phoneNumber,
+		CallBackURL:       callbackURL,
+		AccountReference:  ref,
+		TransactionDesc:   desc,
+	}
 }
 
 // Reversal is a model
