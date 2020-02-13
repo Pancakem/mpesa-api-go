@@ -6,6 +6,7 @@ import (
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/pem"
+  "fmt"
 	"io/ioutil"
 )
 
@@ -40,4 +41,10 @@ func (s Service) GetSecurityCredential(initiatorPassword string) (string, error)
 
 	enc := base64.StdEncoding.EncodeToString(encrypted)
 	return enc, nil
+}
+
+// GeneratePassword by base64 encoding BusinessShortcode, Passkey, and Timestamp
+func GeneratePassword(shortCode, passkey, timestamp string) string {
+	str := fmt.Sprintf("%s%s%s", shortCode, passkey, timestamp)
+	return base64.StdEncoding.EncodeToString([]byte(str))
 }
