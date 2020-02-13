@@ -2,12 +2,10 @@ package mpesa
 
 import (
 	"bytes"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"strings"
 	"time"
 )
 
@@ -37,33 +35,34 @@ func New(appKey, appSecret string, env int) (Service, error) {
 
 //Generate Mpesa Daraja Access Token
 func (s Service) auth() (string, error) {
-	b := []byte(s.AppKey + ":" + s.AppSecret)
-	encoded := base64.StdEncoding.EncodeToString(b)
-
 	url := s.baseURL() + "oauth/v1/generate?grant_type=client_credentials"
-	req, err := http.NewRequest(http.MethodGet, url, strings.NewReader(encoded))
+	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return "", err
 	}
-	req.Header.Add("authorization", "Basic "+encoded)
-	req.Header.Add("cache-control", "no-cache")
 
-	client := &http.Client{Timeout: 60 * time.Second}
-	res, err := client.Do(req)
-	if res != nil {
-		defer res.Body.Close()
-	}
+	req.SetBasicAuth(s.AppKey, s.AppSecret)
+	req.Header.Add("cache-control", "no-cache")
+	req.Header.Add("Accept", "application/json")
+	req.Header.Add("Accept-Encoding", "gzip, deflate")
+	req.Header.Add("Connection", "keep-alive")
+
+        res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return "", fmt.Errorf("could not send auth request: %v", err)
 	}
+	if res != nil {
+		defer res.Body.Close()
+	}
 
-	var authResponse authResponse
-	err = json.NewDecoder(res.Body).Decode(&authResponse)
+	var authResp authResponse
+
+	err = json.NewDecoder(res.Body).Decode(&authResp)
 	if err != nil {
 		return "", fmt.Errorf("could not decode auth response: %v", err)
 	}
 
-	accessToken := authResponse.AccessToken
+	accessToken := authResp.AccessToken
 	return accessToken, nil
 }
 
@@ -71,11 +70,11 @@ func (s Service) auth() (string, error) {
 func (s Service) Simulation(express Express) (string, error) {
 	body, err := json.Marshal(express)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 	auth, err := s.auth()
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	headers := make(map[string]string)
@@ -91,12 +90,12 @@ func (s Service) Simulation(express Express) (string, error) {
 func (s Service) TransactionStatus(express Express) (string, error) {
 	body, err := json.Marshal(express)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	auth, err := s.auth()
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	headers := make(map[string]string)
@@ -116,7 +115,7 @@ func (s Service) C2BRegisterURL(c2bRegisterURL C2BRegisterURL) (string, error) {
 
 	auth, err := s.auth()
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	headers := make(map[string]string)
@@ -137,7 +136,7 @@ func (s Service) C2BSimulation(c2b C2B) (string, error) {
 
 	auth, err := s.auth()
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	headers := make(map[string]string)
@@ -158,7 +157,7 @@ func (s Service) B2CRequest(b2c B2C) (string, error) {
 
 	auth, err := s.auth()
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	headers := make(map[string]string)
@@ -174,11 +173,11 @@ func (s Service) B2CRequest(b2c B2C) (string, error) {
 func (s Service) B2BRequest(b2b B2B) (string, error) {
 	body, err := json.Marshal(b2b)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 	auth, err := s.auth()
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	headers := make(map[string]string)
@@ -199,7 +198,7 @@ func (s Service) Reversal(reversal Reversal) (string, error) {
 
 	auth, err := s.auth()
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	headers := make(map[string]string)
@@ -215,7 +214,7 @@ func (s Service) Reversal(reversal Reversal) (string, error) {
 func (s Service) BalanceInquiry(balanceInquiry BalanceInquiry) (string, error) {
 	auth, err := s.auth()
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	body, err := json.Marshal(balanceInquiry)
@@ -237,7 +236,7 @@ func (s Service) BalanceInquiry(balanceInquiry BalanceInquiry) (string, error) {
 func (s Service) PullTransactions(pull Pull) (string, error) {
 	auth, err := s.auth()
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	body, err := json.Marshal(pull)
@@ -257,7 +256,7 @@ func (s Service) PullTransactions(pull Pull) (string, error) {
 func (s Service) newReq(url string, body []byte, headers map[string]string) (string, error) {
 	request, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(body))
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	for key, value := range headers {

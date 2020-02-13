@@ -12,7 +12,7 @@ type authResponse struct {
 type C2B struct {
 	ShortCode     string
 	CommandID     string
-	Amount        string
+	Amount        int
 	Msisdn        string
 	BillRefNumber string
 }
@@ -22,7 +22,7 @@ type B2C struct {
 	InitiatorName      string
 	SecurityCredential string
 	CommandID          string
-	Amount             string
+	Amount             int
 	PartyA             string
 	PartyB             string
 	Remarks            string
@@ -38,7 +38,7 @@ type B2B struct {
 	CommandID              string
 	SenderIdentifierType   string
 	RecieverIdentifierType string
-	Amount                 string
+	Amount                 int
 	PartyA                 string
 	PartyB                 string
 	Remarks                string
@@ -53,7 +53,7 @@ type Express struct {
 	Password          string
 	Timestamp         string
 	TransactionType   string
-	Amount            string
+	Amount            int
 	PartyA            string
 	PartyB            string
 	PhoneNumber       string
@@ -90,7 +90,7 @@ type Reversal struct {
 	SecurityCredential     string
 	CommandID              string
 	TransactionID          string
-	Amount                 string
+	Amount                 int
 	ReceiverParty          string
 	ReceiverIdentifierType string
 	QueueTimeOutURL        string

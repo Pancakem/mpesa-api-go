@@ -49,7 +49,7 @@ func main() {
 		Password:          "",
 		Timestamp:         "",
 		TransactionType:   "",
-		Amount:            "",
+		Amount:            0,
 		PartyA:            "",
 		PartyB:            "",
 		PhoneNumber:       "",
@@ -163,16 +163,22 @@ const (
 
 func main() {
 
+    var initiatorPassword = ""
 	svc, err := mpesa.New(appKey, appSecret, mpesa.SANDBOX)
 	if err != nil {
 		panic(err)
 	}
+    
+    securityCredential, err := svc.GetSecurityCredential(initiatorPassword)
+    if err != nil {
+        panic(err)
+    }
 
 	res, err := svc.B2CRequest(mpesa.B2C{
 		InitiatorName:      "",
-		SecurityCredential: "",
+		SecurityCredential: securityCredential,
 		CommandID:          "",
-		Amount:             "",
+		Amount:             0,
 		PartyA:             "",
 		PartyB:             "",
 		Remarks:            "",
@@ -219,7 +225,7 @@ func main() {
 		SenderIdentifierType:   "",
 		RecieverIdentifierType: "",
 		Remarks:                "",
-		Amount:                 "",
+		Amount:                 0,
 		PartyA:                 "",
 		PartyB:                 "",
 		AccountReference:       "",
@@ -309,7 +315,7 @@ func main() {
 		SecurityCredential:     "",
 		CommandID:              "",
 		TransactionID:          "",
-		Amount:                 "",
+		Amount:                 0,
 		ReceiverParty:          "",
 		ReceiverIdentifierType: "",
 		QueueTimeOutURL:        "",
