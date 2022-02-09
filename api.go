@@ -232,7 +232,7 @@ func (s Service) BalanceInquiry(balanceInquiry BalanceInquiry) (string, error) {
 	return s.newReq(url, body, headers)
 }
 
-// BalanceInquiry sends a balance inquiry
+// PullTransactions sends a balance inquiry
 func (s Service) PullTransactions(pull Pull) (string, error) {
 	auth, err := s.auth()
 	if err != nil {
