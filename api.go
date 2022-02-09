@@ -47,7 +47,7 @@ func (s Service) auth() (string, error) {
 	req.Header.Add("Accept-Encoding", "gzip, deflate")
 	req.Header.Add("Connection", "keep-alive")
 
-        res, err := http.DefaultClient.Do(req)
+    res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return "", fmt.Errorf("could not send auth request: %v", err)
 	}
@@ -72,18 +72,12 @@ func (s Service) Simulation(express Express) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	auth, err := s.auth()
-	if err != nil {
-		return "", err
-	}
 
 	headers := make(map[string]string)
-	headers["content-type"] = "application/json"
-	headers["authorization"] = "Bearer " + auth
 	headers["cache-control"] = "no-cache"
 
-	url := s.baseURL() + "mpesa/stkpush/v1/processrequest"
-	return s.newReq(url, body, headers)
+	endpoint := "mpesa/stkpush/v1/processrequest"
+	return s.newReq(endpoint, body, headers)
 }
 
 // TransactionStatus gets status of a transaction
@@ -93,17 +87,10 @@ func (s Service) TransactionStatus(express Express) (string, error) {
 		return "", err
 	}
 
-	auth, err := s.auth()
-	if err != nil {
-		return "", err
-	}
-
 	headers := make(map[string]string)
-	headers["Content-Type"] = "application/json"
-	headers["Authorization"] = "Bearer " + auth
 
-	url := s.baseURL() + "mpesa/stkpushquery/v1/query"
-	return s.newReq(url, body, headers)
+	endpoint := "mpesa/stkpushquery/v1/query"
+	return s.newReq(endpoint, body, headers)
 }
 
 // C2BRegisterURL requests
@@ -113,18 +100,11 @@ func (s Service) C2BRegisterURL(c2bRegisterURL C2BRegisterURL) (string, error) {
 		return "", err
 	}
 
-	auth, err := s.auth()
-	if err != nil {
-		return "", err
-	}
-
 	headers := make(map[string]string)
-	headers["Content-Type"] = "application/json"
-	headers["Authorization"] = "Bearer " + auth
 	headers["Cache-Control"] = "no-cache"
 
-	url := s.baseURL() + "mpesa/c2b/v1/registerurl"
-	return s.newReq(url, body, headers)
+	endpoint := "mpesa/c2b/v1/registerurl"
+	return s.newReq(endpoint, body, headers)
 }
 
 // C2BSimulation sends a new request
@@ -134,18 +114,11 @@ func (s Service) C2BSimulation(c2b C2B) (string, error) {
 		return "", err
 	}
 
-	auth, err := s.auth()
-	if err != nil {
-		return "", err
-	}
-
 	headers := make(map[string]string)
-	headers["Content-Type"] = "application/json"
-	headers["Authorization"] = "Bearer " + auth
 	headers["cache-control"] = "no-cache"
 
-	url := s.baseURL() + "mpesa/c2b/v1/simulate"
-	return s.newReq(url, body, headers)
+	endpoint := "mpesa/c2b/v1/simulate"
+	return s.newReq(endpoint, body, headers)
 }
 
 // B2CRequest sends a new request
@@ -155,18 +128,11 @@ func (s Service) B2CRequest(b2c B2C) (string, error) {
 		return "", err
 	}
 
-	auth, err := s.auth()
-	if err != nil {
-		return "", err
-	}
-
 	headers := make(map[string]string)
-	headers["Content-Type"] = "application/json"
-	headers["Authorization"] = "Bearer " + auth
 	headers["cache-control"] = "no-cache"
 
-	url := s.baseURL() + "mpesa/b2c/v1/paymentrequest"
-	return s.newReq(url, body, headers)
+	endpoint := "mpesa/b2c/v1/paymentrequest"
+	return s.newReq(endpoint, body, headers)
 }
 
 // B2BRequest sends a new request
@@ -175,18 +141,12 @@ func (s Service) B2BRequest(b2b B2B) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	auth, err := s.auth()
-	if err != nil {
-		return "", err
-	}
 
 	headers := make(map[string]string)
-	headers["Content-Type"] = "application/json"
-	headers["Authorization"] = "Bearer " + auth
 	headers["cache-control"] = "no-cache"
 
-	url := s.baseURL() + "mpesa/b2b/v1/paymentrequest"
-	return s.newReq(url, body, headers)
+	endpoint := "mpesa/b2b/v1/paymentrequest"
+	return s.newReq(endpoint, body, headers)
 }
 
 // Reversal requests a reversal?
@@ -196,68 +156,54 @@ func (s Service) Reversal(reversal Reversal) (string, error) {
 		return "", err
 	}
 
-	auth, err := s.auth()
-	if err != nil {
-		return "", err
-	}
-
 	headers := make(map[string]string)
-	headers["Content-Type"] = "application/json"
-	headers["Authorization"] = "Bearer " + auth
 	headers["cache-control"] = "no-cache"
 
-	url := s.baseURL() + "safaricom/reversal/v1/request" //TODO :: CONFIRM THIS URL/ENDPOINT???
-	return s.newReq(url, body, headers)
+	endpoint := "safaricom/reversal/v1/request" //TODO :: CONFIRM THIS URL/ENDPOINT???
+	return s.newReq(endpoint, body, headers)
 }
 
 // BalanceInquiry sends a balance inquiry
 func (s Service) BalanceInquiry(balanceInquiry BalanceInquiry) (string, error) {
-	auth, err := s.auth()
-	if err != nil {
-		return "", err
-	}
-
 	body, err := json.Marshal(balanceInquiry)
 	if err != nil {
 		return "", err
 	}
 
 	headers := make(map[string]string)
-	headers["Content-Type"] = "application/json"
-	headers["Authorization"] = "Bearer " + auth
 	headers["cache-control"] = "no-cache"
 	headers["postman-token"] = "2aa448be-7d56-a796-065f-b378ede8b136"
 
-	url := s.baseURL() + "mpesa/accountbalance/v1/query"
-	return s.newReq(url, body, headers)
+	endpoint := "mpesa/accountbalance/v1/query"
+	return s.newReq(endpoint, body, headers)
 }
 
 // BalanceInquiry sends a balance inquiry
 func (s Service) PullTransactions(pull Pull) (string, error) {
-	auth, err := s.auth()
-	if err != nil {
-		return "", err
-	}
-
 	body, err := json.Marshal(pull)
 	if err != nil {
 		return "", err
 	}
 
 	headers := make(map[string]string)
-	headers["Content-Type"] = "application/json"
-	headers["Authorization"] = "Bearer " + auth
 	headers["cache-control"] = "no-cache"
 
-	url := s.baseURL() + "pulltransactions/v1/query"
-	return s.newReq(url, body, headers)
+	endpoint := "pulltransactions/v1/query"
+	return s.newReq(endpoint, body, headers)
 }
 
-func (s Service) newReq(url string, body []byte, headers map[string]string) (string, error) {
+func (s Service) newReq(endpoint string, body []byte, headers map[string]string) (string, error) {
+	url := s.baseURL() + endpoint
 	request, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(body))
 	if err != nil {
 		return "", err
 	}
+	auth, err := s.auth()
+	if err != nil {
+		return "", err
+	}
+	headers["content-type"] = "application/json"
+	headers["authorization"] = "Bearer " + auth
 
 	for key, value := range headers {
 		request.Header.Set(key, value)
