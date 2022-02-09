@@ -7,7 +7,7 @@ The wrapper provides convenient access to the [Safaricom MPESA Daraja API](https
 You can install the package by running:
 
 ```
-go get github.com/AndroidStudyOpenSource/mpesa-api-go
+go get github.com/Pancakem/mpesa-api-go
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ package main
 
 import (
 	"log"
-	"github.com/AndroidStudyOpenSource/mpesa-api-go"
+	"github.com/Pancakem/mpesa-api-go"
 )
 
 const (
@@ -77,7 +77,7 @@ package main
 
 import (
 	"log"
-	"github.com/AndroidStudyOpenSource/mpesa-api-go"
+	"github.com/Pancakem/mpesa-api-go"
 )
 
 const (
@@ -114,7 +114,7 @@ package main
 
 import (
 	"log"
-	"github.com/AndroidStudyOpenSource/mpesa-api-go"
+	"github.com/Pancakem/mpesa-api-go"
 )
 
 const (
@@ -153,7 +153,7 @@ package main
 
 import (
 	"log"
-	"github.com/AndroidStudyOpenSource/mpesa-api-go"
+	"github.com/Pancakem/mpesa-api-go"
 )
 
 const (
@@ -203,7 +203,7 @@ package main
 
 import (
 	"log"
-	"github.com/AndroidStudyOpenSource/mpesa-api-go"
+	"github.com/Pancakem/mpesa-api-go"
 )
 
 const (
@@ -250,7 +250,7 @@ package main
 
 import (
 	"log"
-	"github.com/AndroidStudyOpenSource/mpesa-api-go"
+	"github.com/Pancakem/mpesa-api-go"
 )
 
 const (
@@ -295,7 +295,7 @@ package main
 
 import (
 	"log"
-	"github.com/AndroidStudyOpenSource/mpesa-api-go"
+	"github.com/Pancakem/mpesa-api-go"
 )
 
 const (
