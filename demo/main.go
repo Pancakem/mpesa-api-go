@@ -5,9 +5,9 @@ import (
 	"github.com/Pancakem/mpesa-api-go"
 )
 
-const (
-	appKey    = "GvzjNnYgNJtwgwfLBkZh65VPwfuKvs0V" // sandbox --> change to yours
-	appSecret = "oOpJICRVlyrGSAkM"                 // sandbox --> change to yours
+var (
+    appKey = os.Getenv("DARAJA_APP_KEY")
+    appSecret = os.Getenv("DARAJA_APP_SECRET")
 )
 
 func main() {
