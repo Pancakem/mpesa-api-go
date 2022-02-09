@@ -12,7 +12,7 @@ type authResponse struct {
 type C2B struct {
 	ShortCode     string
 	CommandID     string
-	Amount        int
+	Amount        string
 	Msisdn        string
 	BillRefNumber string
 }
@@ -22,7 +22,7 @@ type B2C struct {
 	InitiatorName      string
 	SecurityCredential string
 	CommandID          string
-	Amount             int
+	Amount             string
 	PartyA             string
 	PartyB             string
 	Remarks            string
@@ -38,7 +38,7 @@ type B2B struct {
 	CommandID              string
 	SenderIdentifierType   string
 	RecieverIdentifierType string
-	Amount                 int
+	Amount                 string
 	PartyA                 string
 	PartyB                 string
 	Remarks                string
@@ -53,7 +53,7 @@ type Express struct {
 	Password          string
 	Timestamp         string
 	TransactionType   string
-	Amount            int
+	Amount            string
 	PartyA            string
 	PartyB            string
 	PhoneNumber       string
@@ -65,7 +65,7 @@ type Express struct {
 var defaultTransactionType = "CustomerPayBillOnline"
 
 // NewExpress creates an express request object. Does the password generation and timestamp
-func NewExpress(shortCode string, amount int, phoneNumber, callbackURL, ref, desc, passkey string) *Express {
+func NewExpress(shortCode string, amount string, phoneNumber, callbackURL, ref, desc, passkey string) *Express {
 	timestamp := time.Now().Format("20060102030405")
 	password := GeneratePassword(shortCode, passkey, timestamp)
 
@@ -90,7 +90,7 @@ type Reversal struct {
 	SecurityCredential     string
 	CommandID              string
 	TransactionID          string
-	Amount                 int
+	Amount                 string
 	ReceiverParty          string
 	ReceiverIdentifierType string
 	QueueTimeOutURL        string
@@ -119,7 +119,7 @@ type Pull struct {
 	PageNumber string
 }
 
-// RegisterURL is a model
+// C2BRegisterURL is a model
 type C2BRegisterURL struct {
 	ShortCode       string
 	ResponseType    string
