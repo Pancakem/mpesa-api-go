@@ -18,9 +18,9 @@ func (s Service) GetSecurityCredential(initiatorPassword string) (string, error)
 
 	var fileName string
 	if s.Env == PRODUCTION {
-		fileName = "https://developer.safaricom.co.ke/sites/default/files/cert/cert_prod/cert.cer"
+		fileName = "https://developer.safaricom.co.ke/api/v1/GenerateSecurityCredential/ProductionCertificate.cer"
 	} else {
-		fileName = "https://developer.safaricom.co.ke/sites/default/files/cert/cert_sandbox/cert.cer"
+		fileName = "https://developer.safaricom.co.ke/api/v1/GenerateSecurityCredential/SandboxCertificate.cer"
 	}
 
 	resp, err := http.Get(fileName)
