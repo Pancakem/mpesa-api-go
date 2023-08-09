@@ -1,3 +1,3 @@
-module github.com/Pancakem/mpesa-api-go
+module mpesa-api-go
 
-go 1.16
+go 1.20

@@ -2,7 +2,8 @@ package main
 
 import (
 	"log"
-	"github.com/Pancakem/mpesa-api-go"
+
+	mpesa "mpesa-api-go"
 )
 
 const (
@@ -28,7 +29,7 @@ func main() {
 	c2b := mpesa.C2B{
 		ShortCode:     "600576",
 		CommandID:     "CustomerPayBillOnline",
-		Amount:        "2",
+		Amount:        2,
 		Msisdn:        "254708374149",
 		BillRefNumber: "hkjhjkhjkh"}
 

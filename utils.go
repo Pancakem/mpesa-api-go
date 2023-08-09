@@ -7,7 +7,7 @@ import (
 	"encoding/base64"
 	"encoding/pem"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -29,7 +29,7 @@ func (s Service) GetSecurityCredential(initiatorPassword string) (string, error)
 	}
 	defer resp.Body.Close()
 
-	pubKey, err = ioutil.ReadAll(resp.Body)
+	pubKey, err = io.ReadAll(resp.Body)
 	if err != nil {
 		return "", err
 	}

@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 )
@@ -33,7 +33,7 @@ func New(appKey, appSecret string, env int) (Service, error) {
 	return Service{appKey, appSecret, env}, nil
 }
 
-//Generate Mpesa Daraja Access Token
+// Generate Mpesa Daraja Access Token
 func (s Service) auth() (string, error) {
 	url := s.baseURL() + "oauth/v1/generate?grant_type=client_credentials"
 	req, err := http.NewRequest(http.MethodGet, url, nil)
@@ -47,7 +47,7 @@ func (s Service) auth() (string, error) {
 	req.Header.Add("Accept-Encoding", "gzip, deflate")
 	req.Header.Add("Connection", "keep-alive")
 
-        res, err := http.DefaultClient.Do(req)
+	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return "", fmt.Errorf("could not send auth request: %v", err)
 	}
@@ -272,7 +272,7 @@ func (s Service) newReq(url string, body []byte, headers map[string]string) (str
 		return "", err
 	}
 
-	stringBody, err := ioutil.ReadAll(res.Body)
+	stringBody, err := io.ReadAll(res.Body)
 	if err != nil {
 		return "", err
 	}
