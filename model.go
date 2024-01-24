@@ -6,6 +6,7 @@ import (
 
 type authResponse struct {
 	AccessToken string `json:"access_token"`
+	ExpiresIn string `json:"expires_in"`
 }
 
 // C2B is a model

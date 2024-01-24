@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	mpesa "mpesa-api-go"
+	mpesa "github.com/pancakem/mpesa-api-go"
 )
 
 const (
@@ -15,18 +15,18 @@ func main() {
 	// These examples are taken from the mpesa-java-sdk examples
 	// at https://github.com/safaricom/mpesa-java-sdk
 
-	svc, err := mpesa.New(appKey, appSecret, mpesa.PRODUCTION)
+	svc, err := mpesa.New(appKey, appSecret, mpesa.SANDBOX)
 	if err != nil {
 		panic(err)
 	}
 
-	res, err := svc.B2BRequest(mpesa.B2B{})
+	res, err := svc.B2BRequest(&mpesa.B2B{})
 	if err != nil {
 		log.Println(err)
 	}
 	log.Println(res)
 
-	c2b := mpesa.C2B{
+	c2b := &mpesa.C2B{
 		ShortCode:     "600576",
 		CommandID:     "CustomerPayBillOnline",
 		Amount:        2,
