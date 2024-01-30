@@ -20,13 +20,13 @@ func main() {
 		panic(err)
 	}
 
-	res, err := svc.B2BRequest(&mpesa.B2B{})
+	res, err := svc.B2BRequest(mpesa.B2B{})
 	if err != nil {
 		log.Println(err)
 	}
 	log.Println(res)
 
-	c2b := &mpesa.C2B{
+	c2b := mpesa.C2B{
 		ShortCode:     "600576",
 		CommandID:     "CustomerPayBillOnline",
 		Amount:        2,

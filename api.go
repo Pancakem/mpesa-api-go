@@ -69,7 +69,7 @@ func (s Service) auth() (string, error) {
 }
 
 // Simulation requests user device for payment
-func (s Service) MpesaExpress(express *Express) (string, error) {
+func (s Service) MpesaExpress(express Express) (string, error) {
 	body, err := json.Marshal(express)
 	if err != nil {
 		return "", err
@@ -89,7 +89,7 @@ func (s Service) MpesaExpress(express *Express) (string, error) {
 }
 
 // TransactionStatus gets status of a transaction
-func (s Service) TransactionStatus(express *Express) (string, error) {
+func (s Service) TransactionStatus(express Express) (string, error) {
 	body, err := json.Marshal(express)
 	if err != nil {
 		return "", err
@@ -109,7 +109,7 @@ func (s Service) TransactionStatus(express *Express) (string, error) {
 }
 
 // C2BRegisterURL requests
-func (s Service) C2BRegisterURL(c2bRegisterURL *C2BRegisterURL) (string, error) {
+func (s Service) C2BRegisterURL(c2bRegisterURL C2BRegisterURL) (string, error) {
 	body, err := json.Marshal(c2bRegisterURL)
 	if err != nil {
 		return "", err
@@ -130,7 +130,7 @@ func (s Service) C2BRegisterURL(c2bRegisterURL *C2BRegisterURL) (string, error) 
 }
 
 // C2BSimulation sends a new request
-func (s Service) C2BSimulation(c2b *C2B) (string, error) {
+func (s Service) C2BSimulation(c2b C2B) (string, error) {
 	body, err := json.Marshal(c2b)
 	if err != nil {
 		return "", err
@@ -151,7 +151,7 @@ func (s Service) C2BSimulation(c2b *C2B) (string, error) {
 }
 
 // B2CRequest sends a new request
-func (s Service) B2CRequest(b2c *B2C) (string, error) {
+func (s Service) B2CRequest(b2c B2C) (string, error) {
 	body, err := json.Marshal(b2c)
 	if err != nil {
 		return "", err
@@ -172,7 +172,7 @@ func (s Service) B2CRequest(b2c *B2C) (string, error) {
 }
 
 // B2BRequest sends a new request
-func (s Service) B2BRequest(b2b *B2B) (string, error) {
+func (s Service) B2BRequest(b2b B2B) (string, error) {
 	body, err := json.Marshal(b2b)
 	if err != nil {
 		return "", err
@@ -192,7 +192,7 @@ func (s Service) B2BRequest(b2b *B2B) (string, error) {
 }
 
 // Reversal requests a reversal?
-func (s Service) Reversal(reversal *Reversal) (string, error) {
+func (s Service) Reversal(reversal Reversal) (string, error) {
 	body, err := json.Marshal(reversal)
 	if err != nil {
 		return "", err
@@ -235,7 +235,7 @@ func (s Service) BalanceInquiry(balanceInquiry *BalanceInquiry) (string, error) 
 }
 
 // BalanceInquiry sends a balance inquiry
-func (s Service) PullTransactions(pull *Pull) (string, error) {
+func (s Service) PullTransactions(pull Pull) (string, error) {
 	auth, err := s.auth()
 	if err != nil {
 		return "", err
