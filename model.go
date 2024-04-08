@@ -6,7 +6,7 @@ import (
 
 type authResponse struct {
 	AccessToken string `json:"access_token"`
-	ExpiresIn string `json:"expires_in"`
+	ExpiresIn   string `json:"expires_in"`
 }
 
 // C2B is a model
@@ -61,6 +61,32 @@ type Express struct {
 	CallBackURL       string
 	AccountReference  string
 	TransactionDesc   string
+}
+
+// Mpesa Response Callback model
+type MpesaCallbackResponse struct {
+	Body struct {
+		StkCallback struct {
+			MerchantRequestID string `json:"MerchantRequestID"`
+			CheckoutRequestID string `json:"CheckoutRequestID"`
+			ResultCode        int    `json:"ResultCode"`
+			ResultDesc        string `json:"ResultDesc"`
+			CallbackMetadata  struct {
+				Item []struct {
+					Name  string  `json:"Name"`
+					Value float64 `json:"Value"`
+				} `json:"Item"`
+			} `json:"CallbackMetadata"`
+		} `json:"stkCallback"`
+	} `json:"Body"`
+}
+
+type MpesaResponse struct {
+	MerchantRequestID   string `json:"MerchantRequestID"`
+	CheckoutRequestID   string `json:"CheckoutRequestID"`
+	ResponseCode        string `json:"ResponseCode"`
+	ResponseDescription string `json:"ResponseDescription"`
+	CustomerMessage     string `json:"CustomerMessage"`
 }
 
 var defaultTransactionType = "CustomerPayBillOnline"
