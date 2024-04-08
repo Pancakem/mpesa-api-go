@@ -73,8 +73,8 @@ type MpesaCallbackResponse struct {
 			ResultDesc        string `json:"ResultDesc"`
 			CallbackMetadata  struct {
 				Item []struct {
-					Name  string  `json:"Name"`
-					Value float64 `json:"Value"`
+					Name  string `json:"Name"`
+					Value string `json:"Value"`
 				} `json:"Item"`
 			} `json:"CallbackMetadata"`
 		} `json:"stkCallback"`
