@@ -3,11 +3,10 @@ package mpesa
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/pkg/errors"
-	"io"
 	"net/http"
 	"time"
-	"fmt"
 )
 
 // Env is the environment type
@@ -53,12 +52,12 @@ func (s Service) auth() (string, error) {
 		return "", errors.Wrap(err, "failed to send request")
 	}
 
-	if (res.StatusCode != 200) {
+	if res.StatusCode != 200 {
 		return "", errors.New(fmt.Sprintf("request failed with status %d", res.StatusCode))
 	}
 
 	defer res.Body.Close()
-	var authResp authResponse	
+	var authResp authResponse
 	err = json.NewDecoder(res.Body).Decode(&authResp)
 	if err != nil {
 		return "", errors.Wrap(err, "could not decode auth response")
@@ -69,14 +68,14 @@ func (s Service) auth() (string, error) {
 }
 
 // Simulation requests user device for payment
-func (s Service) MpesaExpress(express Express) (string, error) {
+func (s Service) MpesaExpress(express Express) (*MpesaResponse, error) {
 	body, err := json.Marshal(express)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	auth, err := s.auth()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	headers := make(map[string]string)
@@ -89,15 +88,15 @@ func (s Service) MpesaExpress(express Express) (string, error) {
 }
 
 // TransactionStatus gets status of a transaction
-func (s Service) TransactionStatus(express Express) (string, error) {
+func (s Service) TransactionStatus(express Express) (*MpesaResponse, error) {
 	body, err := json.Marshal(express)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	auth, err := s.auth()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	headers := make(map[string]string)
@@ -109,15 +108,15 @@ func (s Service) TransactionStatus(express Express) (string, error) {
 }
 
 // C2BRegisterURL requests
-func (s Service) C2BRegisterURL(c2bRegisterURL C2BRegisterURL) (string, error) {
+func (s Service) C2BRegisterURL(c2bRegisterURL C2BRegisterURL) (*MpesaResponse, error) {
 	body, err := json.Marshal(c2bRegisterURL)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	auth, err := s.auth()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	headers := make(map[string]string)
@@ -130,15 +129,15 @@ func (s Service) C2BRegisterURL(c2bRegisterURL C2BRegisterURL) (string, error) {
 }
 
 // C2BSimulation sends a new request
-func (s Service) C2BSimulation(c2b C2B) (string, error) {
+func (s Service) C2BSimulation(c2b C2B) (*MpesaResponse, error) {
 	body, err := json.Marshal(c2b)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	auth, err := s.auth()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	headers := make(map[string]string)
@@ -151,15 +150,15 @@ func (s Service) C2BSimulation(c2b C2B) (string, error) {
 }
 
 // B2CRequest sends a new request
-func (s Service) B2CRequest(b2c B2C) (string, error) {
+func (s Service) B2CRequest(b2c B2C) (*MpesaResponse, error) {
 	body, err := json.Marshal(b2c)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	auth, err := s.auth()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	headers := make(map[string]string)
@@ -172,14 +171,14 @@ func (s Service) B2CRequest(b2c B2C) (string, error) {
 }
 
 // B2BRequest sends a new request
-func (s Service) B2BRequest(b2b B2B) (string, error) {
+func (s Service) B2BRequest(b2b B2B) (*MpesaResponse, error) {
 	body, err := json.Marshal(b2b)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	auth, err := s.auth()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	headers := make(map[string]string)
@@ -192,15 +191,15 @@ func (s Service) B2BRequest(b2b B2B) (string, error) {
 }
 
 // Reversal requests a reversal?
-func (s Service) Reversal(reversal Reversal) (string, error) {
+func (s Service) Reversal(reversal Reversal) (*MpesaResponse, error) {
 	body, err := json.Marshal(reversal)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	auth, err := s.auth()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	headers := make(map[string]string)
@@ -213,15 +212,15 @@ func (s Service) Reversal(reversal Reversal) (string, error) {
 }
 
 // BalanceInquiry sends a balance inquiry
-func (s Service) BalanceInquiry(balanceInquiry *BalanceInquiry) (string, error) {
+func (s Service) BalanceInquiry(balanceInquiry *BalanceInquiry) (*MpesaResponse, error) {
 	auth, err := s.auth()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	body, err := json.Marshal(balanceInquiry)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	headers := make(map[string]string)
@@ -235,15 +234,15 @@ func (s Service) BalanceInquiry(balanceInquiry *BalanceInquiry) (string, error) 
 }
 
 // BalanceInquiry sends a balance inquiry
-func (s Service) PullTransactions(pull Pull) (string, error) {
+func (s Service) PullTransactions(pull Pull) (*MpesaResponse, error) {
 	auth, err := s.auth()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	body, err := json.Marshal(pull)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	headers := make(map[string]string)
@@ -255,10 +254,10 @@ func (s Service) PullTransactions(pull Pull) (string, error) {
 	return s.newReq(url, body, headers)
 }
 
-func (s Service) newReq(url string, body []byte, headers map[string]string) (string, error) {
+func (s Service) newReq(url string, body []byte, headers map[string]string) (*MpesaResponse, error) {
 	request, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(body))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	for key, value := range headers {
@@ -267,19 +266,19 @@ func (s Service) newReq(url string, body []byte, headers map[string]string) (str
 
 	client := &http.Client{Timeout: 60 * time.Second}
 	res, err := client.Do(request)
-	if res != nil {
-		defer res.Body.Close()
-	}
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	stringBody, err := io.ReadAll(res.Body)
+	var mpesaResp MpesaResponse
+
+	defer res.Body.Close()
+	err = json.NewDecoder(res.Body).Decode(&mpesaResp)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return string(stringBody), nil
+	return &mpesaResp, nil
 }
 
 func (s Service) baseURL() string {
